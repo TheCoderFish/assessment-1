@@ -1,5 +1,6 @@
 export class Profile {
     constructor(
+        public id: number,
         public firstName: string,
         public lastName: string,
         public gender: Gender,
@@ -10,9 +11,9 @@ export class Profile {
     ) { }
 }
 
-enum Gender { Male, Female }
+export enum Gender { Male, Female }
 // tslint:disable-next-line: class-name
-interface hobby {
+export interface hobby {
     name: string;
     selected: boolean;
 }

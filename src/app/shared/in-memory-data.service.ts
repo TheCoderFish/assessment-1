@@ -1,13 +1,19 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
+import { Profile, Gender, hobby } from '../model/profile';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InMemoryDataService {
+export class InMemoryDataService implements InMemoryDbService {
 
   createDb() {
-    return {}
+    const profiles: Profile[] = [];
+    return { profiles };
+  }
+
+  genId(profiles: Profile[]): number {
+    return profiles.length > 0 ? Math.max(...profiles.map(profile => profile.id)) + 1 : 11;
   }
 
   constructor() { }
