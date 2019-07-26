@@ -46,7 +46,7 @@
                 </select>
         </div>
         <div class="submit-area text-center">
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" [disabled]="profileForm.invalid" type="submit">Submit</button>
             <button class="btn btn-secondary" type="button" (click)="clearForm()">Clear</button>
         </div>
     </form>
