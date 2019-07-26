@@ -1,3 +1,44 @@
-<p>
-  profile-form works!
-</p>
+<h1>Profile details form</h1>
+<form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <div class="form-control">
+        <label for="name">First Name</label>
+        <input type="text" class="form-control" id="firstname" required formControlName="firstName">
+    </div>
+    <div class="form-control">
+        <label for="name">Last Name</label>
+        <input type="text" class="form-control" id="lastname" required formControlName="lastName">
+    </div>
+    <div class="form-control">
+        <label for="gender">Gender</label>
+        <div class="radio-block">
+            <input type="radio" id="g" name="gender" value="g" formControlName="gender">
+            <label for="male">Male</label>
+        </div>
+        <div class="radio-block">
+            <input type="radio" id="f" name="gender" value="f"  formControlName="gender">
+            <label for="female">Female</label>
+        </div>
+    </div>
+    <div class="form-control">
+        <div *ngFor="let hobby of hobbies.controls; let i=index">
+            <input type="checkbox"  [formControl]="hobby" /> {{profileModel.hobbies[i].name}}
+        </div>
+    </div>
+    <div class="form-control">
+        <label for="birthdate">BirthDate</label>
+        <input type="date" formControlName="birthDate" required>
+    </div>
+    <div class="form-control">
+        <label for="city">Salary</label>
+        <input type="text" formControlName="salary" required>
+    </div>
+    <div class="form-control">
+        <label for="city">City</label>
+        <input type="text" formControlName="city" required>
+    </div>
+    <button type="submit" [disabled]="profileForm.invalid">Submit</button>
+    <button type="clear" (click)="clearForm()">Clear</button>
+</form>
+
+{{profileForm.value | json}}
+{{ profileForm.invalid}}
