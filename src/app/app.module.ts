@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 import { ProfileFormComponent } from './user/profile-form/profile-form.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from '../app/shared/in-memory-data.service';
+import { ErrorComponentComponent } from './shared/error-component/error-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileFormComponent
+    ProfileFormComponent,
+    ErrorComponentComponent
   ],
   imports: [
     BrowserModule,

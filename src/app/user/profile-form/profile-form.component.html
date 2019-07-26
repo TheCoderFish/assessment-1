@@ -3,6 +3,7 @@
     <div class="form-control">
         <label for="name">First Name</label>
         <input type="text" class="form-control" id="firstname" required formControlName="firstName">
+        <app-error-component [toCheck]="firstName" [label]="'FirstName'"></app-error-component>
     </div>
     <div class="form-control">
         <label for="name">Last Name</label>

@@ -41,6 +41,11 @@ export class ProfileFormComponent implements OnInit {
     this.cities = ['City 1', 'City 2', 'City 3', 'City 4'];
   }
 
+  // Getters And Setters
+  get firstName(){
+    return this.profileForm.get('firstName') as FormControl;
+  }
+
   get hobbies() {
     return this.profileForm.get('hobbies') as FormArray;
   }

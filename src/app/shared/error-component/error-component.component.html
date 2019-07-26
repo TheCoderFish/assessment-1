@@ -1,0 +1,8 @@
+<div *ngIf="fieldName.invalid && (fieldName.dirty || fieldName.touched)" class="alert alert-danger">
+  <div *ngIf="fieldName.errors.required">
+    {{label}} is required.
+  </div>
+  <div *ngIf="fieldName.errors.minlength">
+      {{label}} must be at least 4 characters long.
+  </div>
+</div>
