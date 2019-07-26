@@ -12,6 +12,7 @@ export class InMemoryDataService implements InMemoryDbService {
     return { profiles };
   }
 
+  // ID Generator
   genId(profiles: Profile[]): number {
     return profiles.length > 0 ? Math.max(...profiles.map(profile => profile.id)) + 1 : 11;
   }

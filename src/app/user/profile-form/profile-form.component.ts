@@ -17,37 +17,57 @@ export class ProfileFormComponent implements OnInit {
   cities;
 
   constructor(private fb: FormBuilder,
-    // tslint:disable-next-line: align
-    private ps: ProfileService) { }
+              private ps: ProfileService) { }
 
   ngOnInit() {
-    this.profileModel = new Profile(1, 'Nurali', 'Khoja', Gender.Male, [
+    this.profileModel = new Profile(null, '', '', null, [
       { name: 'Reading', selected: false },
       { name: 'Cricket', selected: false },
       { name: 'Singing', selected: false },
       { name: 'Dancing', selected: false }],
-      new Date('1995-10-02'), 1110, 'Valsad');
+      null, null, '');
 
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       gender: [Validators.required],
       hobbies: this.buildHobbies(),
-      birthDate: [Validators.required],
-      salary: [0, [Validators.required, Validators.minLength(4), Validators.maxLength(7)]],
+      birthDate: [null, Validators.required],
+      salary: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(7)]],
       city: ['', Validators.required]
     });
 
-    this.cities = ['City 1', 'City 2', 'City 3', 'City 4'];
+    // Can be populated by a service
+    this.cities = [{ id: 1, name: 'City 1' }, { id: 2, name: 'City 2' }, { id: 3, name: 'City 3' }, { id: 4, name: 'City 4' }];
   }
 
   // Getters And Setters
-  get firstName(){
+  get firstName() {
     return this.profileForm.get('firstName') as FormControl;
+  }
+
+  get lastName() {
+    return this.profileForm.get('lastName') as FormControl;
+  }
+  get gender() {
+    return this.profileForm.get('gender') as FormControl;
+  }
+  get salary() {
+    return this.profileForm.get('salary') as FormControl;
+  }
+  get birthDate() {
+    return this.profileForm.get('birthDate') as FormControl;
+  }
+  get city() {
+    return this.profileForm.get('city') as FormControl;
   }
 
   get hobbies() {
     return this.profileForm.get('hobbies') as FormArray;
+  }
+
+  set date(date: Date) {
+    this.profileForm.patchValue({ birthDate: date });
   }
 
   buildHobbies() {
@@ -66,8 +86,5 @@ export class ProfileFormComponent implements OnInit {
     this.ps.addProfile(profile as Profile).subscribe(response => {
       this.ps.getProfiles().subscribe(x => this.profiles = x);
     });
-  }
-  load() {
-    this.profileForm.patchValue(this.profileModel);
   }
 }

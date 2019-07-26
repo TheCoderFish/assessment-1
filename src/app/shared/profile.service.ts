@@ -19,33 +19,21 @@ export class ProfileService {
 
     constructor(private http: HttpClient) { }
 
+    // Get all Profiles
     getProfiles(): Observable<Profile[]> {
         return this.http.get<Profile[]>(this.profileUrl);
     }
 
-    /** POST: add a new Profile to the server */
+    // POST: add a new Profile to the server */
     addProfile(profile: Profile): Observable<Profile> {
         return this.http.post<Profile>(this.profileUrl, profile, this.httpOptions).pipe(
             catchError(this.handleError<Profile>('addProfile'))
         );
     }
 
-    /**
-     * Handle Http operation that failed.
-     * Let the app continue.
-     * @param operation - name of the operation that failed
-     * @param result - optional value to return as the observable result
-     */
     private handleError<T>(operation = 'operation', result?: T) {
         return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // TODO: better job of transforming error for user consumption
-            //this.log(`${operation} failed: ${error.message}`);
-
-            // Let the app keep running by returning an empty result.
+            console.error(error);
             return of(result as T);
         };
     }

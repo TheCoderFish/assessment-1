@@ -12,7 +12,6 @@ export class Profile {
 }
 
 export enum Gender { Male, Female }
-// tslint:disable-next-line: class-name
 export interface hobby {
     name: string;
     selected: boolean;
