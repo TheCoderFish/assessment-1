@@ -5,5 +5,8 @@
   <div *ngIf="fieldName.errors.minlength">
       {{label}} must be at least 4 characters/digits long.
   </div>
+  <div *ngIf="fieldName.errors.pattern">
+      {{label}} should conatin only Numbers
+  </div>
 </div>
 

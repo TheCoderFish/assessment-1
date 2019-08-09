@@ -4,7 +4,7 @@ export class Profile {
         public firstName: string,
         public lastName: string,
         public gender: Gender,
-        public hobbies: hobby[],
+        public hobbies: Hobby[],
         public birthDate: Date,
         public salary: number,
         public city: string
@@ -12,7 +12,13 @@ export class Profile {
 }
 
 export enum Gender { Male, Female }
-export interface hobby {
+
+export interface Hobby {
     name: string;
     selected: boolean;
+}
+
+export interface City {
+    id: number;
+    name: string;
 }

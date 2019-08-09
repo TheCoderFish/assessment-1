@@ -1,6 +1,6 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
-import { Profile, Gender, hobby } from '../model/profile';
+import { Profile } from '../model/profile';
 
 @Injectable({
   providedIn: 'root'
