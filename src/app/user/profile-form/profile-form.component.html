@@ -2,10 +2,8 @@
     <h1 class="text-center">Profile details form</h1>
 
     <div class="error-area">
-        <div class="alert alert-danger text-center" *ngIf="profileForm.invalid && 
-        (firstName.touched && lastName.touched &&gender.touched && salary.touched
-         && birthDate.touched && city.touched && hobbies.touched)">
-            Please Complete All Required Details Before Submitting
+        <div class="alert alert-danger text-center" *ngIf="displayError">
+            Please Fill All Required Details Correctly Before Submitting
         </div>
     </div>
 
@@ -58,9 +56,10 @@
                 <option value="" selected disabled hidden>Choose here</option>
                 <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
             </select>
+            <app-error-component [toCheck]="city" [label]="'City'"></app-error-component>
         </div>
         <div class="submit-area text-center">
-            <button class="btn btn-primary" [disabled]="profileForm.invalid" type="submit">Submit</button>
+            <button class="btn btn-primary" type="button" (click)="onSubmit()">Submit</button>
             <button class="btn btn-secondary" type="button" (click)="clearForm()">Clear</button>
         </div>
     </form>
@@ -100,5 +99,3 @@
         </div>
     </div>
 </div>
-
-<button (click)="showErrors()">Errors</button>

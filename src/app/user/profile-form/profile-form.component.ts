@@ -12,18 +12,19 @@ import { hobbies, cities } from '../../constants/hobbies';
 })
 export class ProfileFormComponent implements OnInit {
 
-  private profileForm: FormGroup;
-  private profileModel: Profile;
-  private profiles: Profile[] = [];
-  private cities: City[];
-  private inputHobbies: Hobby[];
+  profileForm: FormGroup;
+  profiles: Profile[] = [];
+  cities: City[];
+  inputHobbies: Hobby[];
+  displayError: boolean;
 
   constructor(private fb: FormBuilder,
-    private ps: ProfileService) { }
+              private ps: ProfileService) { }
 
   ngOnInit() {
     this.inputHobbies = hobbies;
     this.cities = cities;
+    this.displayError = false;
 
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -76,13 +77,13 @@ export class ProfileFormComponent implements OnInit {
 
   onSubmit() {
     const profile: Profile = this.profileForm.value;
-    this.ps.addProfile(profile as Profile).subscribe(response => {
-      this.ps.getProfiles().subscribe(x => this.profiles = x);
-    });
-  }
-
-  showErrors() {
-    console.log(this.profileForm.value);
-    console.log(this.salary.errors);
+    if (this.profileForm.invalid) {
+      this.displayError = true;
+    } else {
+      this.displayError = false;
+      this.ps.addProfile(profile as Profile).subscribe(response => {
+        this.ps.getProfiles().subscribe(x => this.profiles = x);
+      });
+    }
   }
 }
