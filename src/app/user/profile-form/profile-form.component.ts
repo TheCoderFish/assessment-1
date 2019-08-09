@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { Profile, Gender } from '../../model/profile';
+import { Profile, Gender, City, Hobby } from '../../model/profile';
 import { ProfileService } from '../../shared/profile.service';
+import { hobbies, cities } from '../../constants/hobbies';
 
 @Component({
   selector: 'app-profile-form',
@@ -11,34 +12,30 @@ import { ProfileService } from '../../shared/profile.service';
 })
 export class ProfileFormComponent implements OnInit {
 
-  profileForm: FormGroup;
-  profileModel: Profile;
-  profiles: Profile[] = [];
-  cities;
+  private profileForm: FormGroup;
+  private profileModel: Profile;
+  private profiles: Profile[] = [];
+  private cities: City[];
+  private inputHobbies: Hobby[];
 
   constructor(private fb: FormBuilder,
-              private ps: ProfileService) { }
+    private ps: ProfileService) { }
 
   ngOnInit() {
-    this.profileModel = new Profile(null, '', '', null, [
-      { name: 'Reading', selected: false },
-      { name: 'Cricket', selected: false },
-      { name: 'Singing', selected: false },
-      { name: 'Dancing', selected: false }],
-      null, null, '');
+    this.inputHobbies = hobbies;
+    this.cities = cities;
 
     this.profileForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      gender: [Validators.required],
+      gender: ['', Validators.required],
       hobbies: this.buildHobbies(),
       birthDate: [null, Validators.required],
-      salary: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(7)]],
+      salary: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(7), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
       city: ['', Validators.required]
     });
 
     // Can be populated by a service
-    this.cities = [{ id: 1, name: 'City 1' }, { id: 2, name: 'City 2' }, { id: 3, name: 'City 3' }, { id: 4, name: 'City 4' }];
   }
 
   // Getters And Setters
@@ -66,12 +63,8 @@ export class ProfileFormComponent implements OnInit {
     return this.profileForm.get('hobbies') as FormArray;
   }
 
-  set date(date: Date) {
-    this.profileForm.patchValue({ birthDate: date });
-  }
-
   buildHobbies() {
-    const arr = this.profileModel.hobbies.map(hobby => {
+    const arr = this.inputHobbies.map(hobby => {
       return this.fb.control(hobby.selected);
     });
     return this.fb.array(arr);
@@ -86,5 +79,10 @@ export class ProfileFormComponent implements OnInit {
     this.ps.addProfile(profile as Profile).subscribe(response => {
       this.ps.getProfiles().subscribe(x => this.profiles = x);
     });
+  }
+
+  showErrors() {
+    console.log(this.profileForm.value);
+    console.log(this.salary.errors);
   }
 }

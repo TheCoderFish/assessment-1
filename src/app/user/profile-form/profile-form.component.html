@@ -1,49 +1,63 @@
 <div class="container">
     <h1 class="text-center">Profile details form</h1>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <div class="error-area">
+        <div class="alert alert-danger text-center" *ngIf="profileForm.invalid && 
+        (firstName.touched && lastName.touched &&gender.touched && salary.touched
+         && birthDate.touched && city.touched && hobbies.touched)">
+            Please Complete All Required Details Before Submitting
+        </div>
+    </div>
+
+    <form novalidate [formGroup]="profileForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <label for="name">First Name</label>
-            <input type="text" class="form-control" id="firstname" required formControlName="firstName">
+            <input type="text" class="form-control" id="firstname" formControlName="firstName">
+            <!-- <div *ngIf="firstName.hasError('required')">
+                Required
+            </div> -->
             <app-error-component [toCheck]="firstName" [label]="'FirstName'"></app-error-component>
         </div>
         <div class="form-group">
             <label for="name">Last Name</label>
-            <input type="text" class="form-control" id="lastname" required formControlName="lastName">
+            <input type="text" class="form-control" id="lastname" formControlName="lastName">
             <app-error-component [toCheck]="lastName" [label]="'LastName'"></app-error-component>
         </div>
         <div class="form-group">
             <label for="gender">Gender</label>
-            <div class="radio-block">
-                <input type="radio" id="g" name="gender" value="M" formControlName="gender">
-                <label for="male">Male</label>
-            </div>
-            <div class="radio-block">
-                <input type="radio" id="f" name="gender" value="F" formControlName="gender">
-                <label for="female">Female</label>
+            <div class="gender-radio" [ngClass]="{'required': gender.errors}">
+                <div class="radio-block">
+                    <input type="radio" id="g" name="gender" value="M" formControlName="gender">
+                    <label for="male">Male</label>
+                </div>
+                <div class="radio-block">
+                    <input type="radio" id="f" name="gender" value="F" formControlName="gender">
+                    <label for="female">Female</label>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label for="hobbies">Hobbies</label>
             <div *ngFor="let hobby of hobbies.controls; let i=index">
-                <input type="checkbox" [formControl]="hobby" /> {{profileModel.hobbies[i].name}}
+                <input type="checkbox" [formControl]="hobby" /> {{inputHobbies[i].name}}
             </div>
         </div>
 
         <div class="form-group">
             <label for="birthdate">BirthDate</label>
-            <input type="date" formControlName="birthDate" required>
+            <input type="date" formControlName="birthDate">
         </div>
         <div class="form-group">
             <label for="salary">Salary</label>
-            <input type="text" formControlName="salary" required minlength="4" maxlength="7">
+            <input type="text" formControlName="salary" minlength="4" maxlength="7">
             <app-error-component [toCheck]="salary" [label]="'Salary'"></app-error-component>
         </div>
         <div class="form-group">
             <label for="city">City</label>
-            <select formControlName="city" required>
-                                <option value="" selected disabled hidden>Choose here</option>
-                                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
-                </select>
+            <select formControlName="city">
+                <option value="" selected disabled hidden>Choose here</option>
+                <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+            </select>
         </div>
         <div class="submit-area text-center">
             <button class="btn btn-primary" [disabled]="profileForm.invalid" type="submit">Submit</button>
@@ -55,32 +69,36 @@
 
 
     <!-- To be sepearted into a component -->
-    <div *ngIf="profiles.length">
-        <table border="1px">
-            <tr>
-                <td>ID</td>
-                <td>First Name</td>
-                <td>Last Name</td>
-                <td>Gender</td>
-                <td>Reading</td>
-                <td>Cricket</td>
-                <td>Singing</td>
-                <td>Dancing</td>
-                <td>Birth Date</td>
-                <td>Salary</td>
-                <td>City</td>
-            </tr>
-            <tr *ngFor="let profile of profiles;let i = index">
-                <td>{{profile.id}}</td>
-                <td>{{profile.firstName}}</td>
-                <td>{{profile.lastName}}</td>
-                <td>{{profile.gender}}</td>
-                <td *ngFor="let hobby of profile.hobbies">{{ hobby ? 'Yes':'No'}}</td>
-                <td>{{profile.birthDate}}</td>
-                <td>{{profile.salary | currency:'EUR'}}</td>
-                <!-- <td>{{cities[profile.city].name}}</td> -->
-                <td>{{cities[profile.city - 1].name}}</td>
-            </tr>
-        </table>
+    <div class="text-center mx-auto">
+        <div *ngIf="profiles.length">
+            <table border="1px">
+                <tr>
+                    <td>ID</td>
+                    <td>First Name</td>
+                    <td>Last Name</td>
+                    <td>Gender</td>
+                    <td>Reading</td>
+                    <td>Cricket</td>
+                    <td>Singing</td>
+                    <td>Dancing</td>
+                    <td>Birth Date</td>
+                    <td>Salary</td>
+                    <td>City</td>
+                </tr>
+                <tr *ngFor="let profile of profiles;let i = index">
+                    <td>{{profile.id}}</td>
+                    <td>{{profile.firstName}}</td>
+                    <td>{{profile.lastName}}</td>
+                    <td>{{profile.gender}}</td>
+                    <td *ngFor="let hobby of profile.hobbies">{{ hobby ? 'Yes':'No'}}</td>
+                    <td>{{profile.birthDate}}</td>
+                    <td>{{profile.salary | currency:'EUR'}}</td>
+                    <!-- <td>{{cities[profile.city].name}}</td> -->
+                    <td>{{cities[profile.city - 1].name}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
+
+<button (click)="showErrors()">Errors</button>
